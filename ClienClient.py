@@ -27,8 +27,8 @@ class ClienClient:
 		self.signin_id = None
 
 		# sleep time margin
-		self.margin = 4
-		self.margin_s = 1
+		self.margin = 3
+		self.margin_s = 0.5
 
 		self.num_symph = -1
 		self.num_article = -1
@@ -113,7 +113,7 @@ class ClienClient:
 			# post https://www.clien.net/service/api/board/cm_test/18670833/comment/delete/147549910
 			api = self.url['api'] + f'board/{board}/{article_sn}/comment/delete/{comment_sn}'
 			if self.release_mode or 'cm_test' in api:
-				req = self.post(api, data=csrf, short_sleep=True)
+				req = self.post(api, data=csrf)
 		except:
 			print('오류: delete_comment 실행에 실패했습니다.', board, article_sn, comment_sn)
 
@@ -123,7 +123,7 @@ class ClienClient:
 			api = self.url['api'] + f'board/{board}/delete'
 			data = {'boardSn' : article_sn}
 			if self.release_mode or 'cm_test' in api:
-				req = self.post(api, data={**data, **csrf}, short_sleep=True)
+				req = self.post(api, data={**data, **csrf})
 		except:
 			print('오류: delete_article 실행에 실패했습니다.', board, article_sn)
 
@@ -132,8 +132,7 @@ class ClienClient:
 			# post https://www.clien.net/service/api/comment/like/lecture/18667297/147594619
 			api = self.url['api'] + f'comment/like/{board}/{article_sn}/{comment_sn}'
 			if self.release_mode or 'cm_test' in api:
-				req = self.post(api, data=csrf, short_sleep=True)
-				print(req, api)
+				req = self.post(api, data=csrf)
 		except:
 			print('오류: cancel_like_comment 실행에 실패했습니다.', board, article_sn, comment_sn)
 
@@ -142,10 +141,11 @@ class ClienClient:
 			# post https://www.clien.net/service/api/board/like/cm_mac/18683167/delete
 			api = self.url['api'] + f'board/like/{board}/{article_sn}/delete'
 			if self.release_mode or 'cm_test' in api:
-				req = self.post(api, data=csrf, short_sleep=True)
+				req = self.post(api, data=csrf)
 		except:
 			print('오류: cancel_like_article 실행에 실패했습니다.', board, article_sn)
 
+	# 잔여 시간 계산
 	def remaining_time_like(self, removed_count):
 		time_left = ((self.num_symph - removed_count) * self.margin + (((self.num_symph - removed_count) + 19) // 20) * self.margin) * 1.05
 		return self.convert_seconds(time_left)
