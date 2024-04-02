@@ -23,7 +23,7 @@ loginPW = StringVar()
 is_program_run = True
 
 
-cc = ClienClient(release_mode=False)
+cc = ClienClient(release_mode=True)
 
 
 def check_end(page):
@@ -77,7 +77,6 @@ def removeContents():
             for cell in link:
                 board, article_sn, comment_sn = cc.extract_like_comment(cell)
                 cc.cancel_like_comment(board, article_sn, comment_sn, csrf)
-                print(board, article_sn, comment_sn)
 
                 removed_likes += 1
                 messageLabel.config(text = '댓글 공감을 철회중입니다. 남은 예상 시간 : ' + cc.remaining_time_like(removed_likes))
@@ -103,8 +102,8 @@ def removeContents():
 
             for cell in link:
                 board, article_sn = cc.extract_like_article(cell)
-                print(board, article_sn)
                 cc.cancel_like_article(board, article_sn, csrf)
+
                 removed_likes += 1
                 messageLabel.config(text = '게시글 공감을 철회중입니다. 남은 예상 시간 : ' + cc.remaining_time_like(removed_likes))
 
@@ -131,8 +130,8 @@ def removeContents():
 
             for cell in link:
                 board, article_sn, comment_sn = cc.extract_comment(cell)
-                print(board, article_sn, comment_sn)
                 cc.delete_comment(board, article_sn, comment_sn, csrf)
+
                 removed_comments += 1
                 messageLabel.config(text = '댓글을 삭제하는 중입니다. 남은 예상 시간 : ' + cc.remaining_time_comment(removed_comments, list_no))
 
@@ -160,8 +159,8 @@ def removeContents():
 
             for cell in link:
                 board, article_sn = cc.extract_article(cell)
-                print(board, article_sn)
                 cc.delete_article(board, article_sn, csrf)
+                
                 removed_articles += 1
                 messageLabel.config(text = '게시글을 삭제하는 중입니다. 남은 예상 시간 : ' + cc.remaining_time_article(removed_articles, list_no))
 
