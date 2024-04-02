@@ -32,8 +32,12 @@ class ClienClient:
 
 		self.num_symph = -1
 		self.num_article = -1
+		self.num_article_delete = -1
+		self.num_article_admin_delete = -1
 		self.num_article_page = -1
 		self.num_comment = -1
+		self.num_comment_delete = -1
+		self.num_comment_admin_delete = -1
 		self.num_comment_page = -1
 
 		if self.auto_login:
@@ -183,20 +187,52 @@ class ClienClient:
 			page = self.get(self.url['info'] + self.signin_id, short_sleep=True)
 
 			soup = bs(page.text, 'html.parser')
-			symph = str(soup.select('div.popup_content > ul.user_activity_etc > li > span:nth-child(2)')[0])
-			self.num_symph = int(''.join(re.findall(r'\d+', symph)))
 
-			article = soup.find('span', class_='user_article').text.replace(',', '')
-			article_delete = soup.find('span', class_='user_article_delete').text.replace(',', '')
-			article_admin_delete = soup.find('span', class_='user_article_admin_delete').text.replace(',', '')
-			self.num_article = int(article)
-			self.num_article_page = (int(article) + int(article_delete) + int(article_admin_delete) + 19) // 20
+			try:
+				symph = str(soup.select('div.popup_content > ul.user_activity_etc > li > span:nth-child(2)')[0])
+				self.num_symph = int(''.join(re.findall(r'\d+', symph)))
+			except:
+				self.num_symph = 0
+
+			try:
+				article = soup.find('span', class_='user_article').text.replace(',', '')
+				self.num_article = int(article)
+			except:
+				self.num_article = 0
+
+			try:
+				article_delete = soup.find('span', class_='user_article_delete').text.replace(',', '')
+				self.num_article_delete = int(article_delete)
+			except:
+				self.num_article_delete = 0
+			
+			try:
+				article_admin_delete = soup.find('span', class_='user_article_admin_delete').text.replace(',', '')
+				self.num_article_admin_delete = int(article_admin_delete)
+			except:
+				self.num_article_admin_delete = 0
+
+			self.num_article_page = (self.num_article + self.num_article_delete + self.num_article_admin_delete + 19) // 20
 
 
-			comment = soup.find('span', class_='user_comment').text.replace(',', '')
-			comment_delete = soup.find('span', class_='user_comment_delete').text.replace(',', '')
-			comment_admin_delete = soup.find('span', class_='user_comment_admin_delete').text.replace(',', '')
-			self.num_comment = int(comment)
+			try:
+				comment = soup.find('span', class_='user_comment').text.replace(',', '')
+				self.num_comment = int(comment)
+			except:
+				self.num_comment = 0
+
+			try:
+				comment_delete = soup.find('span', class_='user_comment_delete').text.replace(',', '')
+				self.num_comment_delete = int(comment_delete)
+			except:
+				self.num_comment_delete = 0
+
+			try:
+				comment_admin_delete = soup.find('span', class_='user_comment_admin_delete').text.replace(',', '')
+				self.num_comment_admin_delete = int(comment_admin_delete)
+			except:
+				self.num_comment_admin_delete = 0
+			
 			self.num_comment_page = (int(comment) + int(comment_delete) + int(comment_admin_delete) + 19) // 20
 
 		else:
