@@ -233,7 +233,7 @@ class ClienClient:
 			except:
 				self.num_comment_admin_delete = 0
 			
-			self.num_comment_page = (int(comment) + int(comment_delete) + int(comment_admin_delete) + 19) // 20
+			self.num_comment_page = (self.num_comment + self.num_comment_delete + self.num_comment_admin_delete + 19) // 20
 
 		else:
 			print('오류: 로그인 정보가 없어 공감 횟수 및 글 댓글 작성 횟수를 불러올 수 없습니다.')
