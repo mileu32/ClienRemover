@@ -190,7 +190,7 @@ tk.geometry("%dx%d+%d+%d" % (width, height, screen_x, screen_y))
 messageFrame = Frame(tk)
 messageFrame.configure(background='deepskyblue')
 messageFrame.pack(padx = 20, pady = 20)
-messageLabel = Label(messageFrame, text = "FineAsh(CLIEN) 20240401")
+messageLabel = Label(messageFrame, text = "FineAsh(CLIEN) 20240402")
 messageLabel.pack()
 
 loginFrame = Frame(tk)
